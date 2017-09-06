@@ -22,13 +22,20 @@
             android:name=".Stream"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_stream"
-            android:parentActivityName=".Connect"
+            android:parentActivityName=".ServerList"
             android:theme="@style/FullscreenTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="microsoft.a3dtoolkitandroid.Connect" />
+                android:value="microsoft.a3dtoolkitandroid.ServerList" />
         </activity>
-        <activity android:name=".ServerList"></activity>
+        <activity
+            android:name=".ServerList"
+            android:label="@string/title_activity_serverList"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Connect" />
+        </activity>
     </application>
 
 </manifest>

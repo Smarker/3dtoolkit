@@ -28,6 +28,7 @@ public class ServerList extends AppCompatActivity {
         Intent intent = getIntent();
 
         List<String> serverListString = new ArrayList<String>(Arrays.asList(intent.getStringExtra(Connect.SERVER_LIST).split("\n")));
+        String myID = serverListString.remove(0);
 
         final ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, serverListString);
         listview.setAdapter(adapter);
