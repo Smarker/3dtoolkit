@@ -57,15 +57,15 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:onClick="connect"
         android:text="@string/connect"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        app:layout_constraintRight_toRightOf="@+id/port"
-        android:layout_marginTop="40dp"
-        tools:layout_constraintLeft_creator="1"
         app:layout_constraintLeft_toLeftOf="@+id/port"
-        app:layout_constraintTop_toTopOf="@+id/port" />
+        app:layout_constraintRight_toRightOf="@+id/port"
+        app:layout_constraintTop_toTopOf="@+id/port"
+        tools:layout_constraintLeft_creator="1"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintTop_creator="1" />
 
     <TextView
         android:id="@+id/textView"
