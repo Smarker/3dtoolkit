@@ -1,50 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#0099cc"
-    tools:context="microsoft.a3dtoolkitandroid.Stream">
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
 
-    <!-- The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc. -->
-    <TextView
-        android:id="@+id/fullscreen_content"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
         android:keepScreenOn="true"
-        android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
-        android:textSize="50sp"
-        android:textStyle="bold" />
+        android:layout_height="match_parent">
 
-    <!-- This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows. -->
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true">
-
-        <LinearLayout
-            android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
+        <microsoft.a3dtoolkitandroid.view.PercentFrameLayout
+            android:id="@+id/remote_video_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
+            android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/dummy_button" />
+            <org.webrtc.SurfaceViewRenderer
+                android:id="@+id/remote_video_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </microsoft.a3dtoolkitandroid.view.PercentFrameLayout>
 
-        </LinearLayout>
-    </FrameLayout>
+        <microsoft.a3dtoolkitandroid.view.PercentFrameLayout
+            android:id="@+id/local_video_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-</FrameLayout>
+            <org.webrtc.SurfaceViewRenderer
+                android:id="@+id/local_video_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </microsoft.a3dtoolkitandroid.view.PercentFrameLayout>
+
+        <FrameLayout
+            android:id="@+id/call_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/contact_name_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/buttons_call_container"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="8dp"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:id="@+id/buttons_call_container"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/capture_format_text_call"
+                    android:layout_alignWithParentIfMissing="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="32dp"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/capture_format_text_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="16sp" />
+
+                <ImageButton
+                    android:id="@+id/button_connection_disconnect"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@android:drawable/ic_menu_close_clear_cancel"
+                    android:contentDescription="@string/disconnect_call"/>
+            </RelativeLayout>
+        </FrameLayout>
+    </RelativeLayout>
+
+</layout>

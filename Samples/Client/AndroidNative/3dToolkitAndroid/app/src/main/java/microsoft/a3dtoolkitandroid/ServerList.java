@@ -26,6 +26,7 @@ public class ServerList extends AppCompatActivity {
 
         // Get the Intent that started this activity and extract the string
         Intent intent = getIntent();
+        final Intent nextIntent = new Intent(this, Stream.class);
 
         List<String> serverListString = new ArrayList<String>(Arrays.asList(intent.getStringExtra(Connect.SERVER_LIST).split("\n")));
         String myID = serverListString.remove(0);
@@ -38,6 +39,8 @@ public class ServerList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
                 final String item = (String) parent.getItemAtPosition(position);
                 //todo: do action with chosen item
+                startActivity(nextIntent);
+
             }
         });
 
