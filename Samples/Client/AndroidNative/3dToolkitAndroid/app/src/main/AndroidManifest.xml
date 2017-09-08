@@ -49,6 +49,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Connect" />
         </activity>
+        <activity
+            android:name=".ServerDetails"
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Connect" />
+        </activity>
     </application>
 
 </manifest>
