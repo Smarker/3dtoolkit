@@ -52,6 +52,7 @@ public class Connect extends AppCompatActivity {
             String url = server + "/sign_in?peer_name=" + port;
 
             // Request a string response from the server
+
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override
