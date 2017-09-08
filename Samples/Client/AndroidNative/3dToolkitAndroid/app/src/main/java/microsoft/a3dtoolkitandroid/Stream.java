@@ -10,9 +10,12 @@
 
 package microsoft.a3dtoolkitandroid;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +35,7 @@ import org.webrtc.StatsReport;
 import org.webrtc.VideoCapturer;
 import org.webrtc.VideoRenderer;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -76,6 +80,10 @@ public class Stream extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
         getWindow().addFlags(LayoutParams.FLAG_DISMISS_KEYGUARD | LayoutParams.FLAG_SHOW_WHEN_LOCKED
                 | LayoutParams.FLAG_TURN_SCREEN_ON);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
@@ -96,7 +104,7 @@ public class Stream extends AppCompatActivity
 
         // Get Intent parameters.
         final Intent intent = getIntent();
-        String roomId = "953134440";
+        String roomId = "986083384";
         Log.d(LOG_TAG, "Room ID: " + roomId);
         if (roomId == null || roomId.length() == 0) {
             logAndToast(getString(R.string.missing_url));
@@ -126,6 +134,33 @@ public class Stream extends AppCompatActivity
 
     private void setupListeners() {
         binding.buttonConnectionDisconnect.setOnClickListener(view -> onCallHangUp());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 4321: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    Log.d("PERMISSION GRANTED", "the permission was granted");
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                    afterCameraAccessGranted();
+
+                } else {
+                    Log.d("", "");
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
     @Override
@@ -342,9 +377,16 @@ public class Stream extends AppCompatActivity
     // All callbacks are invoked from websocket signaling looper thread and
     // are routed to UI thread.
     private void onConnectedToRoomInternal(final SignalingParameters params) {
-        final long delta = System.currentTimeMillis() - callStartedTimeMs;
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.CAMERA},
+                4321);
 
         signalingParameters = params;
+    }
+
+    public void afterCameraAccessGranted() {
+        final long delta = System.currentTimeMillis() - callStartedTimeMs;
+
         logAndToast("Creating peer connection, delay=" + delta + "ms");
         VideoCapturer videoCapturer = null;
         if (peerConnectionParameters.videoCallEnabled) {
@@ -359,16 +401,16 @@ public class Stream extends AppCompatActivity
             // PeerConnectionEvents.onLocalDescription event.
             peerConnectionClient.createOffer();
         } else {
-            if (params.offerSdp != null) {
-                peerConnectionClient.setRemoteDescription(params.offerSdp);
+            if (signalingParameters.offerSdp != null) {
+                peerConnectionClient.setRemoteDescription(signalingParameters.offerSdp);
                 logAndToast("Creating ANSWER...");
                 // Create answer. Answer SDP will be sent to offering client in
                 // PeerConnectionEvents.onLocalDescription event.
                 peerConnectionClient.createAnswer();
             }
-            if (params.iceCandidates != null) {
+            if (signalingParameters.iceCandidates != null) {
                 // Add remote ICE candidates from room.
-                for (IceCandidate iceCandidate : params.iceCandidates) {
+                for (IceCandidate iceCandidate : signalingParameters.iceCandidates) {
                     peerConnectionClient.addRemoteIceCandidate(iceCandidate);
                 }
             }
